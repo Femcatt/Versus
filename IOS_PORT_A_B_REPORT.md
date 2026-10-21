@@ -37,6 +37,18 @@ changes were saved and no CI build was started. The installation is now visible 
 
 ## Runtime checks required after a successful build
 
+## First CI attempt and generator correction
+
+The first iOS job failed in generated GeodeBindings sources, before compiling
+Versus itself: FMOD::Sound, FMOD::Geometry and FMOD::Reverb3D were incomplete.
+The current generator's source template no longer includes Geode/Bindings.hpp.
+The iOS workflow now pins bindings to 13436953582c8bfa6d7a91392c9f575d5bafec83,
+the parent of the generator's Cocos mappings change, and builds that generator
+from source with SKIP_BUILDING_CODEGEN=OFF rather than downloading a newer one.
+This keeps the generator/include model consistent with SDK 5.7.1.
+
+## Runtime checks required after a successful build
+
 Check mod startup, room creation/joining with two clients, map and audio downloads,
 both players' readiness, gameplay synchronization, spectating, rematch/forfeit,
 and Membership cosmetics on the intended Geometry Dash/Geode iPhone setup.

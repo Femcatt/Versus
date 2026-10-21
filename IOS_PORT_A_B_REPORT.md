@@ -35,8 +35,6 @@ changes were saved and no CI build was started. The installation is now visible 
 - This Linux environment has no Xcode/iOS SDK; the iOS build must run in CI.
 - Firebase emulator tests and an iPhone runtime test have not run.
 
-## Runtime checks required after a successful build
-
 ## First CI attempt and generator correction
 
 The first iOS job failed in generated GeodeBindings sources, before compiling
@@ -46,6 +44,8 @@ The iOS workflow now pins bindings to 13436953582c8bfa6d7a91392c9f575d5bafec83,
 the parent of the generator's Cocos mappings change, and builds that generator
 from source with SKIP_BUILDING_CODEGEN=OFF rather than downloading a newer one.
 This keeps the generator/include model consistent with SDK 5.7.1.
+The workflow uses the supported macos-15 runner explicitly rather than following
+the moving macos-latest label, whose second attempt remained queued.
 
 ## Runtime checks required after a successful build
 

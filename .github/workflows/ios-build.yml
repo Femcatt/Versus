@@ -22,7 +22,7 @@ concurrency:
 jobs:
   build-ios:
     name: iOS (${{ matrix.edition }})
-    runs-on: macos-latest
+    runs-on: macos-15
     timeout-minutes: 45
     strategy:
       fail-fast: false

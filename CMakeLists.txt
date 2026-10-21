@@ -3,6 +3,16 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Match Geode's iOS example: select the device architecture before project()
+# initializes the Apple toolchain. iOS builds target arm64; other Apple builds
+# can retain both Apple Silicon and Intel architectures.
+if ("${CMAKE_SYSTEM_NAME}" STREQUAL "iOS" OR IOS)
+    set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "iOS target architecture" FORCE)
+elseif (APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "macOS target architectures" FORCE)
+endif()
+
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(Versus VERSION 0.5.4 LANGUAGES C CXX)

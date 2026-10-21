@@ -56,10 +56,12 @@ and the separate database rules before connecting players.
 
 ## Build and install
 
-Build targets are Windows, Android32 and Android64. iOS/macOS builds (including
-CI) are paused until explicitly requested again. The fixed combined filename
-remains `dist/tipp7.versus-AllPlatform.geode`; it contains only these three
-current targets, never older Apple binaries.
+Build targets are Windows, iOS, Android32 and Android64. The iOS build is now
+attempted separately on a macOS GitHub Actions runner. The fixed combined
+filename remains `dist/tipp7.versus-AllPlatform.geode`; it still contains only
+Windows, Android32 and Android64 until the package merger is explicitly updated
+and its iOS binary validation is implemented. Do not treat a successful CI build
+as proof of runtime compatibility on an iPhone.
 
 The release also provides `dist/tipp7.versus-AllPlatform-standard.geode` and
 `dist/tipp7.versus-AllPlatform-membership.geode`. The fixed legacy filename is
@@ -69,8 +71,9 @@ This is a compile-time cosmetic edition, not server-verified paid entitlement.
 
 Use `-DVERSUS_MEMBERSHIP=ON` or `OFF` when configuring CMake to select the
 edition. `-DGEODE_DONT_INSTALL_MODS=ON` packages without replacing the local
-installed mod. The CI builds both editions for all three targets and verifies
-architecture, edition markers, resources and ZIP integrity before publishing.
+installed mod. The CI builds both editions for Windows, iOS, Android32 and
+Android64. The combined release packaging and architecture checks currently
+cover Windows and Android only; iOS artifacts are uploaded separately for review.
 
 The Geode CLI is configured to use the `First` profile. Run this command from
 the project directory:

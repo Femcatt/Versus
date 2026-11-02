@@ -29,7 +29,7 @@ jobs:
           path: afterflow-ios
           sdk: v5.11.2
           target: iOS
-          bindings-ref: 444f51ca5a996a27a503766565019e3925c6bc9c
+          bindings-ref: 1605f500d053f8de122bf5c7dc6d17c24866e02e
           use-lto: false
           configure-args: >-
             -DCMAKE_OSX_ARCHITECTURES=arm64

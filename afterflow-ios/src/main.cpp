@@ -3219,63 +3219,30 @@ finally {
         }
     }
 
-    class AfterflowTouchMenu final : public CCMenu {
-        bool init() {
-            if (!CCMenu::init()) return false;
-            setID("ios-controls-menu"_spr);
-            setPosition({0.f, 0.f});
-            auto size = CCDirector::get()->getWinSize();
-            auto* sprite = ButtonSprite::create("Afterflow");
-            sprite->setScale(0.55f);
-            auto* button = CCMenuItemSpriteExtra::create(
-                sprite, this, menu_selector(AfterflowTouchMenu::onOpen));
-            button->setID("open-controls"_spr);
-            button->setPosition({72.f, size.height - 72.f});
-            addChild(button);
-            return true;
-        }
-
-        void onOpen(CCObject*) {
-            showIOSControls();
-        }
-
-    public:
-        static AfterflowTouchMenu* create() {
-            auto* menu = new AfterflowTouchMenu;
-            if (menu->init()) {
-                menu->autorelease();
-                return menu;
-            }
-            delete menu;
-            return nullptr;
-        }
-    };
-
     void addIOSTouchControls(CCLayer* layer) {
-        if (layer->getChildByID("ios-controls-menu"_spr)) return;
-        if (auto* menu = AfterflowTouchMenu::create()) {
-            layer->addChild(menu, 100);
+        if (!layer || layer->getChildByID("ios-controls-menu"_spr)) return;
+        log::info("Afterflow startup: creating native touch menu");
+        auto* menu = CCMenu::create();
+        auto* sprite = ButtonSprite::create("Afterflow");
+        if (!menu || !sprite) {
+            log::error("Afterflow: touch menu allocation failed");
+            return;
         }
+        sprite->setScale(0.55f);
+        auto* button = CCMenuItemExt::createSpriteExtra(sprite, [](CCMenuItemSpriteExtra*) {
+            showIOSControls();
+        });
+        if (!button) return;
+        menu->setID("ios-controls-menu"_spr);
+        menu->setPosition({0.f, 0.f});
+        button->setID("open-controls"_spr);
+        auto size = CCDirector::get()->getWinSize();
+        button->setPosition({72.f, size.height - 72.f});
+        menu->addChild(button);
+        layer->addChild(menu, 100);
+        log::info("Afterflow startup: native touch menu ready");
     }
 
-    void showIOSIntro() {
-        if (Mod::get()->getSavedValue<bool>("ios-touch-intro-done", false)) return;
-        auto* scene = CCScene::get();
-        if (!scene || scene->getChildByType<FLAlertLayer>(0)) return;
-        createQuickPopup(
-            "Afterflow iOS",
-            "Tap <cg>Afterflow</c> in the main menu or pause menu to select stages. "
-            "<cy>OFF</c> uses raw input. Assisted runs change input timing. "
-            "This port still needs testing on an iPhone.",
-            "OK", "Controls",
-            [](FLAlertLayer*, bool openControls) {
-                Mod::get()->setSavedValue("ios-touch-intro-done", true);
-                (void)Mod::get()->saveData();
-                if (openControls) {
-                    Loader::get()->queueInMainThread([] { showIOSControls(); });
-                }
-            });
-    }
 #else
     void startCycleWatcher() {
         std::error_code errorCode;
@@ -3481,26 +3448,26 @@ class $modify(BufPlayLayer, PlayLayer) {
 
 class $modify(BufMenuLayer, MenuLayer) {
     bool init() {
-        if (!MenuLayer::init()) {
-            return false;
-        }
-
 #ifdef GEODE_IS_IOS
-        addIOSTouchControls(this);
+        log::info("Afterflow startup: entering MenuLayer::init");
 #endif
+        if (!MenuLayer::init()) return false;
+#ifdef GEODE_IS_IOS
+        log::info("Afterflow startup: original menu initialized");
+        // The node owns this action, so cleanup cancels it if the menu exits.
+        // Wait until the scene is running before creating touch controls.
+        this->runAction(CCSequence::create(
+            CCDelayTime::create(0.2f),
+            CallFuncExt::create([this] { addIOSTouchControls(this); }),
+            nullptr));
+#else
         this->runAction(CCSequence::create(
             CCDelayTime::create(0.2f),
             CallFuncExt::create([] {
-#ifdef GEODE_IS_IOS
-                showIOSIntro();
-#else
-                if (!showUpdatePopup()) {
-                    showKeybindIntro();
-                }
-#endif
+                if (!showUpdatePopup()) showKeybindIntro();
             }),
-            nullptr
-        ));
+            nullptr));
+#endif
         return true;
     }
 };

@@ -5,7 +5,7 @@
   "uploaded_package_sha256": "3f04d83eda2e4b7df5b5ac5b4b325a81ff222d79c1867579f81074bc0f5a9a14",
   "sdk_version": "5.11.2",
   "gd_version": "2.2081",
-  "bindings_commit": "444f51ca5a996a27a503766565019e3925c6bc9c",
-  "port_version": "2.1.6-beta.2",
+  "bindings_commit": "1605f500d053f8de122bf5c7dc6d17c24866e02e",
+  "port_version": "2.1.6-beta.3",
   "device_tested": false
 }

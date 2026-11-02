@@ -20,3 +20,11 @@ endif()
 add_library(${PROJECT_NAME} SHARED src/main.cpp)
 add_subdirectory("$ENV{GEODE_SDK}" "${CMAKE_CURRENT_BINARY_DIR}/geode")
 setup_geode_mod(${PROJECT_NAME})
+
+# The pinned bindings generate global FMOD C wrappers before their per-class
+# includes. Supply the SDK's matching C declarations to that generated target.
+# This does not alter addresses, ABI, or the SDK headers.
+if (TARGET GeodeBindings)
+    target_compile_options(GeodeBindings PRIVATE
+        -include "$ENV{GEODE_SDK}/loader/include/Geode/fmod/fmod.h")
+endif()

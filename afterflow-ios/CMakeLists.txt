@@ -18,6 +18,9 @@ if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Set GEODE_SDK to the Geode 5.11.2 SDK directory")
 endif()
 add_library(${PROJECT_NAME} SHARED src/main.cpp)
+# Keep code generation tied to the pinned bindings source, not the rolling
+# codegen release (which can target a different SDK ABI).
+set(SKIP_BUILDING_CODEGEN OFF CACHE BOOL "Build matching code generator" FORCE)
 add_subdirectory("$ENV{GEODE_SDK}" "${CMAKE_CURRENT_BINARY_DIR}/geode")
 setup_geode_mod(${PROJECT_NAME})
 

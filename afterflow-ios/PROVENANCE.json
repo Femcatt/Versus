@@ -7,5 +7,6 @@
   "gd_version": "2.2081",
   "bindings_commit": "1605f500d053f8de122bf5c7dc6d17c24866e02e",
   "port_version": "2.1.6-beta.3",
+  "codegen": "built from bindings source at bindings_commit",
   "device_tested": false
 }

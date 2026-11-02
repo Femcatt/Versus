@@ -32,6 +32,7 @@ jobs:
           bindings-ref: 1605f500d053f8de122bf5c7dc6d17c24866e02e
           use-lto: false
           configure-args: >-
+            -DSKIP_BUILDING_CODEGEN=OFF
             -DCMAKE_OSX_ARCHITECTURES=arm64
             -DCMAKE_OSX_SYSROOT=iphoneos
             -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0

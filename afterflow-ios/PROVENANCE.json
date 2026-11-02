@@ -6,6 +6,6 @@
   "sdk_version": "5.11.2",
   "gd_version": "2.2081",
   "bindings_commit": "444f51ca5a996a27a503766565019e3925c6bc9c",
-  "port_version": "2.1.6-ios.1",
+  "port_version": "2.1.6-beta.2",
   "device_tested": false
 }

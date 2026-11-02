@@ -5,7 +5,7 @@
   },
   "id": "afterflow.prsevend",
   "name": "Afterflow (iOS port)",
-  "version": "v2.1.6-ios.1",
+  "version": "v2.1.6-beta.2",
   "developer": "prsevend",
   "description": "Unofficial iOS port with touch controls for Afterflow input prediction.",
   "tags": [

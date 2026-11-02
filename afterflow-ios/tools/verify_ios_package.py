@@ -2,6 +2,7 @@
 """Reject desktop or simulator binaries accidentally packaged as an iOS mod."""
 import hashlib
 import json
+import re
 from pathlib import Path
 import struct
 import sys
@@ -17,6 +18,8 @@ def verify(path: Path) -> None:
             raise ValueError("Unexpected GD target")
         if metadata["id"] != "afterflow.prsevend":
             raise ValueError("Unexpected mod ID")
+        if not re.fullmatch(r"v?\d+\.\d+\.\d+(?:-(?:alpha|beta|prerelease|pr)(?:\.\d+)?)?", metadata["version"]):
+            raise ValueError("Version tag is not accepted by the Geode loader")
         name = metadata["id"] + ".ios.dylib"
         binaries = [p for p in archive.namelist() if p.endswith((".dll", ".dylib", ".so"))]
         if binaries != [name]:

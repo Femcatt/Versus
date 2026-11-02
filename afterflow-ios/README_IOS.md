@@ -8,7 +8,7 @@ Licencia MIT original conservada en LICENSE.
 ## Objetivo y controles
 
 Este proyecto adapta el código fuente a iPhone ARM64 con Geometry Dash
-**2.2081** y Geode **5.11.2**. La versión del port es `2.1.6-ios.1`.
+**2.2081** y Geode **5.11.2**. La versión del port es `2.1.6-beta.2`.
 Una compilación correcta aún requiere pruebas en un iPhone para confirmar
 que la predicción, los toques y los cambios de modo funcionan correctamente.
 No se declara compatibilidad comprobada con otras versiones de GD.

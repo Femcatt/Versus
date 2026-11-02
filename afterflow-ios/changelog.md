@@ -1,4 +1,4 @@
-# 2.1.6-ios.1 — port no oficial
+# 2.1.6-beta.2 — port no oficial
 
 - Objetivo iOS ARM64 / Geometry Dash 2.2081 / Geode 5.11.2.
 - Panel tactil de etapas en menu y pausa; guardado inmediato.

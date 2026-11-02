@@ -18,7 +18,7 @@ concurrency:
 jobs:
   ios:
     name: Build and verify iPhone ARM64 package
-    runs-on: macos-latest
+    runs-on: macos-15
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4

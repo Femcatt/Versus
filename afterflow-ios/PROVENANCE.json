@@ -1,0 +1,11 @@
+{
+  "upstream": "https://github.com/afterflow-gd/afterflow",
+  "upstream_tag": "2.1.6",
+  "upstream_commit": "8b12bcb4ce1ca9c9c01e6d437a5f0d05f35a421e",
+  "uploaded_package_sha256": "3f04d83eda2e4b7df5b5ac5b4b325a81ff222d79c1867579f81074bc0f5a9a14",
+  "sdk_version": "5.11.2",
+  "gd_version": "2.2081",
+  "bindings_commit": "444f51ca5a996a27a503766565019e3925c6bc9c",
+  "port_version": "2.1.6-ios.1",
+  "device_tested": false
+}

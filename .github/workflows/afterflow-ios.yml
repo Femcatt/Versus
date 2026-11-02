@@ -1,0 +1,56 @@
+name: Afterflow iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [afterflow-ios-port]
+    paths:
+      - 'afterflow-ios/**'
+      - '.github/workflows/afterflow-ios.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: afterflow-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios:
+    name: Build and verify iPhone ARM64 package
+    runs-on: macos-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Afterflow for iOS
+        id: build
+        uses: geode-sdk/build-geode-mod@a0f7676e6fcd1a584f6d0c1c800239008412defc
+        with:
+          path: afterflow-ios
+          sdk: v5.11.2
+          target: iOS
+          bindings-ref: 444f51ca5a996a27a503766565019e3925c6bc9c
+          use-lto: false
+          configure-args: >-
+            -DCMAKE_OSX_ARCHITECTURES=arm64
+            -DCMAKE_OSX_SYSROOT=iphoneos
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0
+            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED=NO
+      - name: Verify the packaged binary really targets iPhoneOS
+        env:
+          OUTPUT_DIR: ${{ steps.build.outputs.build-output }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import subprocess
+          packages = list(Path(os.environ['OUTPUT_DIR']).glob('*.geode'))
+          if len(packages) != 1:
+              raise SystemExit(f'Expected one package, got {packages}')
+          subprocess.run(['python3', 'afterflow-ios/tools/verify_ios_package.py', str(packages[0])], check=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Afterflow-iOS
+          path: ${{ steps.build.outputs.build-output }}/*.geode
+          if-no-files-found: error

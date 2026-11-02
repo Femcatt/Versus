@@ -1,0 +1,16 @@
+{
+  "geode": "5.11.2",
+  "gd": {
+    "ios": "2.2081"
+  },
+  "id": "afterflow.prsevend",
+  "name": "Afterflow (iOS port)",
+  "version": "v2.1.6-ios.1",
+  "developer": "prsevend",
+  "description": "Unofficial iOS port with touch controls for Afterflow input prediction.",
+  "tags": [
+    "gameplay",
+    "utility",
+    "developer"
+  ]
+}

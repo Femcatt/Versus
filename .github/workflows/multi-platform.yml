@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "**"
+      - "!afterflow-ios-port"
 
 permissions:
   contents: write
